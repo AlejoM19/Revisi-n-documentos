@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Plataforma de Procedimientos</title>
+<style>
+  :root {
+    color-scheme: light;
+    --azul: #3FA9E0;
+    --azul-osc: #1F7FB3;
+    --azul-cl: #E7F5FC;
+    --naranja: #F07D1E;
+    --naranja-osc: #D2650A;
+    --naranja-cl: #FDEAD3;
+    --crema: #FDF6E4;
+    --crema-osc: #F7ECC9;
+    --verde: #1a7f4e;
+    --verde-cl: #e6f6ee;
+    --rojo: #b3261e;
+    --rojo-cl: #fbe9e7;
+    --gris: #6b6154;
+    --gris-cl: #F8F1DE;
+    --borde: #EADFBC;
+    --tinta: #23201A;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--crema);
+    color: var(--tinta);
+    font-size: 14.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  header {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--azul-osc) 100%);
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 4px solid var(--naranja);
+    box-shadow: 0 2px 12px rgba(35,32,26,0.15);
+  }
+  header .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-badge {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--tinta); color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px; letter-spacing: .02em;
+    border: 2px solid var(--naranja);
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-size: 18px; margin: 0; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .02em;
+  }
+  header .sub { font-size: 12px; opacity: 0.92; margin-top: 2px; font-weight: 600; }
+  #userBox { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+  #userBox .pill {
+    background: rgba(255,255,255,0.18);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  button {
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 15px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: background .15s ease, transform .05s ease, box-shadow .15s ease;
+  }
+  button:active { transform: scale(0.97); }
+  .btn-primary { background: var(--naranja); color: #fff; box-shadow: 0 2px 6px rgba(240,125,30,0.35); }
+  .btn-primary:hover { background: var(--naranja-osc); box-shadow: 0 3px 10px rgba(240,125,30,0.4); }
+  .btn-secondary { background: #fff; color: var(--azul-osc); border: 2px solid var(--azul); }
+  .btn-secondary:hover { background: var(--azul-cl); }
+  .btn-ghost { background: transparent; color: var(--gris); border: 2px solid var(--borde); }
+  .btn-ghost:hover { background: var(--gris-cl); }
+  .btn-danger { background: var(--rojo); color: #fff; }
+  nav {
+    display: flex;
+    gap: 4px;
+    background: #fff;
+    border-bottom: 2px solid var(--borde);
+    padding: 0 18px;
+    flex-wrap: wrap;
+  }
+  nav button.tab {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    padding: 14px 16px;
+    color: var(--gris);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: .03em;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  nav button.tab:hover { color: var(--azul-osc); }
+  nav button.tab.active { color: var(--naranja-osc); border-bottom-color: var(--naranja); }
+  main { padding: 20px; max-width: 1100px; margin: 0 auto; }
+  .hidden { display: none !important; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 18px;
+    border-top: 4px solid var(--azul);
+    box-shadow: 0 1px 3px rgba(35,32,26,0.04), 0 6px 18px rgba(35,32,26,0.06);
+  }
+  .card h2 {
+    font-size: 15.5px; margin: 0 0 14px 0; text-transform: uppercase;
+    letter-spacing: .03em; font-weight: 800; color: var(--tinta);
+  }
+  .card h3 { font-size: 14px; margin: 0 0 8px 0; font-weight: 700; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  label { display: block; font-size: 12.5px; font-weight: 700; color: var(--gris); margin: 10px 0 4px; }
+  input[type=text], input[type=date], textarea, select, input[type=file] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1.5px solid var(--borde);
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-family: inherit;
+    background: #fffdf8;
+  }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--azul); }
+  textarea { resize: vertical; min-height: 80px; }
+  .proc-item {
+    border: 1.5px solid var(--borde);
+    border-radius: 12px;
+    padding: 15px 17px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #fffdf8;
+    transition: box-shadow .15s ease, border-color .15s ease;
+  }
+  .proc-item:hover { box-shadow: 0 4px 14px rgba(35,32,26,0.08); border-color: var(--azul); }
+  .proc-item .info { flex: 1; min-width: 220px; }
+  .proc-item h3 { margin: 0 0 4px 0; font-size: 14.5px; }
+  .meta { font-size: 12px; color: var(--gris); }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-left: 6px;
+    text-transform: uppercase;
+  }
+  .badge.ok { background: var(--verde-cl); color: var(--verde); }
+  .badge.pend { background: var(--naranja-cl); color: var(--naranja-osc); }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--borde); }
+  th { color: var(--gris); font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; }
+  tr:hover td { background: var(--gris-cl); }
+  .empty { color: var(--gris); font-size: 13px; padding: 20px; text-align: center; }
+  .modal-bg {
+    position: fixed; inset: 0; background: rgba(35,32,26,0.6);
+    display: flex; align-items: center; justify-content: center; z-index: 50; padding: 20px;
+  }
+  .modal {
+    background: #fffdf8; border-radius: 16px; padding: 24px; width: 100%; max-width: 560px;
+    max-height: 88vh; overflow-y: auto; border-top: 6px solid var(--naranja);
+    box-shadow: 0 24px 60px rgba(35,32,26,0.35);
+  }
+  .modal h2 { margin-top: 0; font-size: 16px; text-transform: uppercase; font-weight: 800; letter-spacing: .02em; }
+  canvas#sigPad {
+    border: 2px dashed var(--azul);
+    border-radius: 10px;
+    width: 100%;
+    height: 160px;
+    touch-action: none;
+    background: #fffefa;
+  }
+  .row-end { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+  .checklist { font-size: 13px; }
+  .checklist label { display: flex; align-items: flex-start; gap: 8px; font-weight: 400; color: var(--tinta); }
+  .checklist input { width: auto; margin-top: 3px; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .tag {
+    background: var(--azul-cl); color: var(--azul-osc); font-size: 11.5px; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px; display: flex; align-items: center; gap: 6px;
+  }
+  .tag button { background: none; padding: 0; font-size: 13px; color: var(--azul-osc); }
+  .sig-thumb { height: 34px; border: 1.5px solid var(--borde); border-radius: 6px; background: #fff; cursor: pointer; }
+  .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+  .toolbar input, .toolbar select { width: auto; }
+  .note { font-size: 12px; color: var(--gris); margin-top: 6px; }
+  .stat { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .stat .box { background: var(--gris-cl); border-radius: 10px; padding: 10px 16px; text-align: center; min-width: 90px; border: 1px solid var(--borde); }
+  .stat .box b { display: block; font-size: 20px; color: var(--naranja-osc); }
+  .stat .box span { font-size: 11px; color: var(--gris); text-transform: uppercase; }
+  #areaImprimir { display: none; }
+  @media print {
+    body * { visibility: hidden; }
+    #areaImprimir, #areaImprimir * { visibility: visible; }
+    #areaImprimir { display: block; position: absolute; left: 0; top: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-badge">BBC</div>
+    <div>
+      <h1>Plataforma de Procedimientos</h1>
+    </div>
+  </div>
+  <div id="userBox"></div>
+</header>
+
+<nav id="tabs"></nav>
+
+<main id="main"></main>
+
+<div id="modalRoot"></div>
+<div id="areaImprimir"></div>
+
+<script>
+/* ---------- Persistencia ---------- */
+const LS_PROCS = "pp_procedimientos_v1";
+const LS_SIGS = "pp_firmas_v1";
+const LS_USER = "pp_usuario_actual_v1";
+const LS_COMENTARIOS = "pp_comentarios_v1";
+const ADMIN_CLAVE = "1994";
+const BBC_LOGO_B64 = "data:image/png;base64,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";
+
+function loadProcs(){ return JSON.parse(localStorage.getItem(LS_PROCS) || "[]"); }
+function saveProcs(d){ localStorage.setItem(LS_PROCS, JSON.stringify(d)); }
+function loadSigs(){ return JSON.parse(localStorage.getItem(LS_SIGS) || "[]"); }
+function saveSigs(d){ localStorage.setItem(LS_SIGS, JSON.stringify(d)); }
+function loadUser(){ return JSON.parse(localStorage.getItem(LS_USER) || "null"); }
+function saveUser(u){ localStorage.setItem(LS_USER, JSON.stringify(u)); }
+function loadComentarios(){ return JSON.parse(localStorage.getItem(LS_COMENTARIOS) || "[]"); }
+function saveComentarios(d){ localStorage.setItem(LS_COMENTARIOS, JSON.stringify(d)); }
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function fmtDate(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString('es-CO', {year:'numeric', month:'short', day:'2-digit'}) + ' ' +
+         d.toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
+}
+
+/* ---------- Estado ---------- */
+let state = {
+  tab: "procedimientos",
+  user: loadUser()
+};
+
+const ROLES = ["Administrador (Inventarios)", "Gerente de Punto de Venta", "Coordinador de Zona"];
+
+const PUNTOS_VENTA = [
+  "Todos (coordinadores / otros)",
+  "PUB ANDINO", "PUB AVDA 19", "PUB PARQUE 93", "PUB USAQUEN", "PUB CEDRITOS",
+  "PUB CALLE 85", "PUB ROSALES", "PUB PEPE SIERRA", "PUB BELAIRE", "PUB COLINA",
+  "PUB CALLE 63", "PUB SALITRE", "PUB CANDELARIA", "PUB TITAN", "PUB GALERIAS",
+  "PUB SAN MARTIN", "PUB CENTRO MAYOR", "PUB PLAZA DE LAS AMERICAS", "PUB PLAZA CENTRAL",
+  "PUB CONECTA", "PUB BBC MOVISTAR ARENA"
+];
+
+const TIPOS_DOC = ["Cédula de ciudadanía", "Cédula de extranjería", "Tarjeta de identidad", "Pasaporte"];
+
+/* ---------- Render raíz ---------- */
+function render(){
+  renderUserBox();
+  renderTabs();
+  renderMain();
+}
+
+function isAdmin(){ return state.user && state.user.rol === ROLES[0]; }
+
+/* ---------- Barra de usuario ---------- */
+function renderUserBox(){
+  const box = document.getElementById('userBox');
+  if (!state.user) {
+    box.innerHTML = `<button class="btn-secondary" onclick="openLogin()" style="background:#fff;">Identificarme</button>`;
+    return;
+  }
+  const u = state.user;
+  box.innerHTML = `
+    <span class="pill">${escapeHtml(u.nombre)} · ${escapeHtml(u.rol)}${u.puntoVenta ? ' · '+escapeHtml(u.puntoVenta) : ''}</span>
+    <button class="btn-ghost" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.5);" onclick="cerrarSesion()">Salir</button>
+  `;
+}
+
+function openLogin(tab){
+  tab = tab || 'usuario';
+  showModal(`
+    <h2>Ingresar</h2>
+    <div style="display:flex; gap:8px; margin-bottom:14px;">
+      <button type="button" class="${tab==='usuario' ? 'btn-primary' : 'btn-ghost'}" onclick="openLogin('usuario')">Usuario / Lector</button>
+      <button type="button" class="${tab==='admin' ? 'btn-primary' : 'btn-ghost'}" onclick="openLogin('admin')">Administrador</button>
+    </div>
+    ${tab === 'usuario' ? `
+      <label>Nombre completo</label>
+      <input type="text" id="loginNombreUsuario" placeholder="Ej: Ana María Rojas" onkeydown="if(event.key==='Enter'){event.preventDefault(); submitLoginUsuario();}">
+      <p class="note">El resto de tus datos (documento, cargo, punto de venta) los completas al momento de firmar el recibido de un procedimiento.</p>
+      <div class="row-end">
+        <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button class="btn-primary" onclick="submitLoginUsuario()">Entrar</button>
+      </div>
+    ` : `
+      <label>Clave de administrador</label>
+      <input type="text" id="loginClaveAdmin" placeholder="Clave" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault(); submitLoginAdmin();}">
+      <div class="row-end">
+        <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button class="btn-primary" onclick="submitLoginAdmin()">Entrar</button>
+      </div>
+    `}
+  `);
+}
+
+function submitLoginUsuario(){
+  const nombre = document.getElementById('loginNombreUsuario').value.trim();
+  if (!nombre){ alert("Escribe tu nombre."); return; }
+  state.user = { nombre, rol: "Usuario / Lector", cargo:"", puntoVenta:"", tipoDoc:"", numDoc:"" };
+  saveUser(state.user);
+  closeModal();
+  render();
+}
+
+function submitLoginAdmin(){
+  const clave = document.getElementById('loginClaveAdmin').value.trim();
+  if (clave !== ADMIN_CLAVE){ alert("Clave incorrecta."); return; }
+  state.user = { nombre: "Administrador Inventarios", rol: ROLES[0], cargo: "Inventarios", puntoVenta: "Todos (coordinadores / otros)", tipoDoc:"", numDoc:"" };
+  saveUser(state.user);
+  closeModal();
+  render();
+}
+
+function cerrarSesion(){
+  state.user = null;
+  saveUser(null);
+  render();
+}
+
+/* ---------- Pestañas ---------- */
+function tabsFor(){
+  if (!state.user) return [["procedimientos","Procedimientos"]];
+  if (isAdmin()) return [
+    ["procedimientos","Procedimientos"],
+    ["nuevo","Publicar procedimiento"],
+    ["cumplimiento","Cumplimiento"],
+    ["historial","Historial de firmas"],
+    ["comentarios","Dudas"]
+  ];
+  return [
+    ["procedimientos","Procedimientos"],
+    ["misfirmas","Mis firmas"]
+  ];
+}
+
+function renderTabs(){
+  const nav = document.getElementById('tabs');
+  const tabs = tabsFor();
+  if (!tabs.find(t => t[0] === state.tab)) state.tab = tabs[0][0];
+  nav.innerHTML = tabs.map(([key,label]) =>
+    `<button class="tab ${state.tab===key?'active':''}" onclick="setTab('${key}')">${label}</button>`
+  ).join('');
+}
+
+function setTab(t){ state.tab = t; renderMain(); renderTabs(); }
+
+/* ---------- Main ---------- */
+function renderMain(){
+  const main = document.getElementById('main');
+  if (state.tab === "procedimientos") return main.innerHTML = viewProcedimientos();
+  if (state.tab === "nuevo") return main.innerHTML = viewNuevo();
+  if (state.tab === "cumplimiento") return main.innerHTML = viewCumplimiento();
+  if (state.tab === "historial") return main.innerHTML = viewHistorial();
+  if (state.tab === "misfirmas") return main.innerHTML = viewMisFirmas();
+  if (state.tab === "comentarios") return main.innerHTML = viewComentarios();
+}
+
+/* ---------- Vista: Procedimientos ---------- */
+function viewProcedimientos(){
+  const procs = loadProcs();
+  const sigs = loadSigs();
+  if (procs.length === 0) return `<div class="card"><div class="empty">Aún no hay procedimientos publicados.</div></div>`;
+
+  const coments = loadComentarios();
+  const items = procs.map(p => {
+    const yaFirmo = state.user && sigs.some(s => s.procedureId === p.id &&
+      s.nombre.toLowerCase() === state.user.nombre.toLowerCase());
+    const numComentarios = coments.filter(c => c.procedureId === p.id).length;
+    return `
+      <div class="proc-item">
+        <div class="info">
+          <h3>${escapeHtml(p.titulo)} <span class="badge ${yaFirmo ? 'ok':'pend'}">${yaFirmo ? 'Firmado' : 'Pendiente de firma'}</span></h3>
+          <div class="meta">${escapeHtml(p.categoria)} · v${escapeHtml(p.version)}${p.fechaDocumento ? ' · Doc. '+p.fechaDocumento : ''} · Publicado ${fmtDate(p.fechaPublicacion)} · por ${escapeHtml(p.publicadoPor)}${numComentarios ? ' · 💬 '+numComentarios+' duda'+(numComentarios>1?'s':'') : ''}</div>
+        </div>
+        <div class="actions">
+          <button class="btn-secondary" onclick="openLeer('${p.id}')">Leer</button>
+          ${(isAdmin() || yaFirmo)
+            ? `<button class="btn-ghost" onclick="descargarProc('${p.id}')">Descargar</button>`
+            : `<button class="btn-ghost" disabled style="opacity:.5;cursor:default;" title="Primero lee y firma el recibido">Descargar</button>`}
+          ${state.user && !isAdmin() ? `<button class="btn-primary" ${yaFirmo?'disabled style="opacity:.5;cursor:default;"':''} onclick="openFirmar('${p.id}')">${yaFirmo?'Ya firmado':'Firmar recibido'}</button>` : ''}
+          ${isAdmin() ? `<button class="btn-ghost" style="color:var(--rojo);" onclick="eliminarProc('${p.id}')">Eliminar</button>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  return `<div class="card"><h2>Procedimientos publicados</h2>${items}</div>`;
+}
+
+function eliminarProc(id){
+  const p = loadProcs().find(x => x.id === id);
+  if (!p) return;
+  if (!confirm(`¿Eliminar "${p.titulo}"? También se perderán sus firmas, dudas y comentarios asociados. Esta acción no se puede deshacer.`)) return;
+  saveProcs(loadProcs().filter(x => x.id !== id));
+  saveSigs(loadSigs().filter(x => x.procedureId !== id));
+  saveComentarios(loadComentarios().filter(x => x.procedureId !== id));
+  renderMain();
+}
+
+function openLeer(id){
+  const p = loadProcs().find(x => x.id === id);
+  const sigs = loadSigs();
+  const yaFirmo = state.user && sigs.some(s => s.procedureId === p.id &&
+    s.nombre.toLowerCase() === state.user.nombre.toLowerCase());
+  const puedeDescargar = isAdmin() || yaFirmo;
+  const esPDF = !!(p.archivoNombre && /\.pdf$/i.test(p.archivoNombre) && p.archivoDataURL);
+  showModal(`
+    <h2>${escapeHtml(p.titulo)}</h2>
+    <p class="meta">${escapeHtml(p.categoria)} · v${escapeHtml(p.version)}${p.fechaDocumento ? ' · Fecha del documento: '+p.fechaDocumento : ''} · Publicado ${fmtDate(p.fechaPublicacion)}${p.vigenciaHasta ? ' · Vigente hasta '+p.vigenciaHasta : ''}</p>
+    ${p.contenido ? `<div style="white-space:pre-wrap; border:1px solid var(--borde); border-radius:8px; padding:12px; max-height:260px; overflow-y:auto; font-size:13.5px;">${escapeHtml(p.contenido)}</div>` : (!esPDF ? `<p class="note">(Sin contenido de texto — ver archivo adjunto o enlace)</p>` : '')}
+    ${esPDF ? `
+      <p class="note" style="margin-top:10px;">Archivo adjunto: ${escapeHtml(p.archivoNombre)}</p>
+      <iframe src="${p.archivoDataURL}" style="width:100%; height:60vh; min-height:420px; border:1.5px solid var(--borde); border-radius:8px; margin-top:6px;"></iframe>
+    ` : ''}
+    ${(p.archivoNombre && !esPDF) ? `<p class="note">Archivo adjunto: ${escapeHtml(p.archivoNombre)} (este tipo de archivo no se puede previsualizar aquí — descárgalo para verlo).</p>` : ''}
+    ${p.urlExterno ? `<p class="note">Enlace al documento original: <a href="${escapeAttr(p.urlExterno)}" target="_blank">${escapeHtml(p.urlExterno)}</a></p>` : ''}
+    ${!puedeDescargar ? `<p class="note">La descarga se habilita después de firmar el recibido.</p>` : ''}
+    <div class="row-end">
+      <button class="btn-ghost" onclick="closeModal()">Cerrar</button>
+      ${puedeDescargar
+        ? `<button class="btn-secondary" onclick="descargarProc('${p.id}')">Descargar</button>`
+        : `<button class="btn-secondary" disabled style="opacity:.5;cursor:default;" title="Primero lee y firma el recibido">Descargar</button>`}
+      ${state.user && !isAdmin() && !yaFirmo ? `<button class="btn-primary" onclick="closeModal(); openFirmar('${p.id}')">Firmar recibido</button>` : ''}
+    </div>
+    <hr style="border:none;border-top:1px solid var(--borde);margin:18px 0 12px;">
+    <h3>Dudas sobre este procedimiento</h3>
+    ${renderComentariosLista(p.id)}
+    ${state.user ? `
+      <label>Agregar duda (algo que no te quedó claro del procedimiento)</label>
+      <textarea id="nuevoComentarioTexto" placeholder="Escribe aquí tu duda..."></textarea>
+      <label>Correo corporativo (ahí te llegará la respuesta)</label>
+      <input type="email" id="nuevoComentarioCorreo" placeholder="tunombre@templecolombia.com" value="${escapeAttr(state.user.correo || '')}">
+      <div class="row-end">
+        <button class="btn-primary" onclick="agregarComentario('${p.id}')">Enviar duda</button>
+      </div>
+    ` : `<p class="note">Identifícate para poder enviar una duda.</p>`}
+  `, true);
+}
+
+function renderComentariosLista(procId){
+  const coments = loadComentarios().filter(c => c.procedureId === procId)
+    .sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+  if (coments.length === 0) return `<p class="note">Aún no hay dudas registradas.</p>`;
+  return coments.map(c => `
+    <div style="border:1px solid var(--borde); border-radius:8px; padding:10px 12px; margin-bottom:8px;">
+      <div class="meta"><b style="color:#1c2530;">${escapeHtml(c.nombre)}</b>${c.cargo ? ' · '+escapeHtml(c.cargo) : ''}${c.puntoVenta ? ' · '+escapeHtml(c.puntoVenta) : ''} · ${fmtDate(c.fecha)}
+        <span class="badge ${c.resuelto ? 'ok':'pend'}">${c.resuelto ? 'Resuelto' : 'Pendiente'}</span>
+      </div>
+      <div style="margin-top:4px;">${escapeHtml(c.texto)}</div>
+      ${c.respuesta ? `<div style="margin-top:8px; padding-top:8px; border-top:1px dashed var(--borde);"><span class="meta"><b>Respuesta de Inventarios</b> · ${fmtDate(c.respuestaFecha)}</span><div>${escapeHtml(c.respuesta)}</div></div>` : ''}
+    </div>
+  `).join('');
+}
+
+function agregarComentario(procId){
+  if (!state.user){ openLogin(); return; }
+  const texto = document.getElementById('nuevoComentarioTexto').value.trim();
+  const correo = document.getElementById('nuevoComentarioCorreo').value.trim();
+  if (!texto){ alert("Escribe la duda antes de enviarla."); return; }
+  if (!correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)){ alert("Escribe un correo corporativo válido — ahí te llegará la respuesta."); return; }
+  const p = loadProcs().find(x => x.id === procId);
+  const coments = loadComentarios();
+  coments.push({
+    id: uid(),
+    procedureId: procId,
+    procedureTitulo: p.titulo,
+    nombre: state.user.nombre,
+    cargo: state.user.cargo || '',
+    puntoVenta: state.user.puntoVenta || '',
+    correo,
+    texto,
+    fecha: new Date().toISOString(),
+    resuelto: false,
+    respuesta: '',
+    respuestaFecha: ''
+  });
+  saveComentarios(coments);
+  state.user.correo = correo;
+  saveUser(state.user);
+  openLeer(procId);
+}
+
+function descargarProc(id){
+  const p = loadProcs().find(x => x.id === id);
+  if (p.archivoDataURL){
+    const a = document.createElement('a');
+    a.href = p.archivoDataURL;
+    a.download = p.archivoNombre || (p.titulo + '.pdf');
+    a.click();
+    return;
+  }
+  const texto = `${p.titulo}\nCategoría: ${p.categoria} · Versión: ${p.version}\nPublicado: ${fmtDate(p.fechaPublicacion)}\n\n${p.contenido}\n${p.urlExterno ? '\nEnlace original: '+p.urlExterno : ''}`;
+  const blob = new Blob([texto], {type: 'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = p.titulo.replace(/[^a-z0-9]+/gi,'_') + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- Firmar ---------- */
+let sigCtx = null, drawing = false, sigEmpty = true;
+
+function openFirmar(procId){
+  if (!state.user){ openLogin(); return; }
+  const p = loadProcs().find(x => x.id === procId);
+  const u = state.user;
+  showModal(`
+    <h2>Firmar recibido — ${escapeHtml(p.titulo)}</h2>
+    <div class="checklist">
+      <label><input type="checkbox" id="declaro"> Declaro que leí y entendí el contenido de este procedimiento y me comprometo a cumplirlo.</label>
+    </div>
+    <label>Nombre</label>
+    <input type="text" id="firmaNombre" value="${escapeAttr(u.nombre)}">
+    <div class="grid2">
+      <div>
+        <label>Tipo de documento</label>
+        <select id="firmaTipoDoc">
+          ${TIPOS_DOC.map(t => `<option value="${t}" ${t===u.tipoDoc?'selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label>Número de documento</label>
+        <input type="text" id="firmaNumDoc" value="${escapeAttr(u.numDoc||'')}" inputmode="numeric">
+      </div>
+    </div>
+    <label>Cargo</label>
+    <input type="text" id="firmaCargo" value="${escapeAttr(u.cargo||'')}">
+    <label>Punto de venta</label>
+    <select id="firmaPuntoVenta">
+      <option value="">Selecciona...</option>
+      ${PUNTOS_VENTA.map(pv => `<option value="${pv}" ${pv===u.puntoVenta?'selected':''}>${pv}</option>`).join('')}
+    </select>
+    <label>Firma manuscrita</label>
+    <canvas id="sigPad" width="500" height="160"></canvas>
+    <div style="margin-top:6px;"><button class="btn-ghost" onclick="clearSig()">Borrar firma</button></div>
+    <p class="note">Fecha y hora de registro: se toman automáticamente al guardar.</p>
+    <div class="row-end">
+      <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn-primary" onclick="guardarFirma('${procId}')">Guardar firma</button>
+    </div>
+  `);
+  setTimeout(() => initSigPad(), 30);
+}
+
+function initSigPad(){
+  const canvas = document.getElementById('sigPad');
+  if (!canvas) return;
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+  sigCtx = canvas.getContext('2d');
+  sigCtx.scale(ratio, ratio);
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+  sigCtx.strokeStyle = '#16396b';
+  sigEmpty = true;
+
+  function pos(e){
+    const r = canvas.getBoundingClientRect();
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+    return {x: cx, y: cy};
+  }
+  function start(e){ drawing = true; sigEmpty = false; const p = pos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x,p.y); e.preventDefault(); }
+  function move(e){ if(!drawing) return; const p = pos(e); sigCtx.lineTo(p.x,p.y); sigCtx.stroke(); e.preventDefault(); }
+  function end(){ drawing = false; }
+
+  canvas.onmousedown = start; canvas.onmousemove = move; window.addEventListener('mouseup', end);
+  canvas.ontouchstart = start; canvas.ontouchmove = move; canvas.ontouchend = end;
+}
+
+function clearSig(){
+  const canvas = document.getElementById('sigPad');
+  const ratio = window.devicePixelRatio || 1;
+  sigCtx.clearRect(0,0,canvas.width/ratio, canvas.height/ratio);
+  sigEmpty = true;
+}
+
+function guardarFirma(procId){
+  const declaro = document.getElementById('declaro').checked;
+  const nombre = document.getElementById('firmaNombre').value.trim();
+  const tipoDoc = document.getElementById('firmaTipoDoc').value;
+  const numDoc = document.getElementById('firmaNumDoc').value.trim();
+  const cargo = document.getElementById('firmaCargo').value.trim();
+  const puntoVenta = document.getElementById('firmaPuntoVenta').value;
+  if (!declaro){ alert("Debes marcar la declaración de lectura y compromiso."); return; }
+  if (!nombre){ alert("Escribe el nombre."); return; }
+  if (!numDoc){ alert("Escribe el número de documento."); return; }
+  if (!puntoVenta){ alert("Selecciona el punto de venta."); return; }
+  if (sigEmpty){ alert("Falta dibujar la firma en el recuadro."); return; }
+
+  const canvas = document.getElementById('sigPad');
+  const firmaDataURL = canvas.toDataURL('image/png');
+  const p = loadProcs().find(x => x.id === procId);
+
+  const sigs = loadSigs();
+  sigs.push({
+    id: uid(),
+    procedureId: procId,
+    procedureTitulo: p.titulo,
+    nombre, tipoDoc, numDoc, cargo, puntoVenta,
+    fecha: new Date().toISOString(),
+    firmaDataURL,
+    declaracion: true
+  });
+  saveSigs(sigs);
+  closeModal();
+  renderMain();
+  renderTabs();
+}
+
+/* ---------- Vista: Nuevo procedimiento (admin) ---------- */
+let tempDestinatarios = [];
+let tempArchivo = null;
+
+function viewNuevo(){
+  if (!isAdmin()) return `<div class="card"><div class="empty">Solo el rol Administrador (Inventarios) puede publicar procedimientos.</div></div>`;
+  tempDestinatarios = [];
+  tempArchivo = null;
+  return `
+  <div class="card">
+    <h2>Publicar nuevo procedimiento</h2>
+    <div class="grid2">
+      <div>
+        <label>Título</label>
+        <input type="text" id="nTitulo" placeholder="Ej: Protocolo de devoluciones">
+        <label>Categoría</label>
+        <input type="text" id="nCategoria" placeholder="Ej: Operaciones, Finanzas, Seguridad">
+      </div>
+      <div>
+        <label>Versión</label>
+        <input type="text" id="nVersion" value="1.0">
+        <label>Fecha del documento</label>
+        <input type="date" id="nFechaDoc">
+        <label>Vigente hasta (opcional)</label>
+        <input type="date" id="nVigencia">
+      </div>
+    </div>
+    <label>Contenido del procedimiento (texto)</label>
+    <textarea id="nContenido" placeholder="Pega o escribe aquí el procedimiento paso a paso..."></textarea>
+    <label>Archivo adjunto (opcional, PDF/Word — máx. ~2 MB en este prototipo)</label>
+    <input type="file" id="nArchivo" onchange="handleArchivo(event)">
+    <div class="note" id="archivoNota"></div>
+    <p class="note">Al subir el archivo intentamos detectar automáticamente el título, la versión y la fecha (del nombre del archivo, o del texto si es .txt/.md). Revisa los campos y ajústalos si hace falta.</p>
+    <label>O enlace externo al documento (opcional)</label>
+    <input type="text" id="nUrl" placeholder="https://...">
+    <label>Destinatarios que deben firmar (nombre o cargo + punto de venta)</label>
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="nDestInput" placeholder="Ej: Gerente PDV Centro" onkeydown="if(event.key==='Enter'){event.preventDefault(); addDest();}">
+      <button class="btn-secondary" onclick="addDest()" type="button" style="white-space:nowrap;">Agregar</button>
+    </div>
+    <div class="tag-list" id="destTags"></div>
+    <p class="note">Estos destinatarios se usan para calcular quién falta por firmar en el tablero de Cumplimiento.</p>
+    <div class="row-end">
+      <button class="btn-primary" onclick="publicarProc()">Publicar procedimiento</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Carga masiva de procedimientos</h2>
+    <p class="note">¿Tienes varios documentos para subir? Selecciónalos todos de una vez: cada archivo se publica como un procedimiento independiente, detectando automáticamente título, versión y fecha de su nombre (o del texto si es .txt/.md). Luego puedes entrar a cada uno desde "Procedimientos" para revisarlo o agregarle destinatarios.</p>
+    <label>Categoría para todos estos archivos (opcional)</label>
+    <input type="text" id="nCategoriaMasiva" placeholder="Ej: Operaciones, Finanzas, Seguridad">
+    <label>Archivos (selecciona varios, máx. ~2 MB cada uno)</label>
+    <input type="file" id="nArchivosMasivos" multiple onchange="handleArchivosMasivos(event)">
+    <div class="note" id="masivaNota"></div>
+  </div>`;
+}
+
+function handleArchivosMasivos(e){
+  const files = Array.from(e.target.files || []);
+  if (files.length === 0) return;
+  const categoria = document.getElementById('nCategoriaMasiva').value.trim() || 'General';
+  const notaEl = document.getElementById('masivaNota');
+  notaEl.innerHTML = `Procesando ${files.length} archivo(s)...`;
+
+  let pendientes = files.length;
+  const creados = [];
+  const rechazados = [];
+
+  function finalizarMasiva(){
+    let html = '';
+    if (creados.length) html += `Se publicaron ${creados.length} procedimiento(s): ${creados.map(escapeHtml).join(', ')}.`;
+    if (rechazados.length) html += `<br><span style="color:var(--rojo)">No se cargaron (muy pesados, límite ~2MB): ${rechazados.map(escapeHtml).join(', ')}.</span>`;
+    if (creados.length) html += `<br>Ve a la pestaña "Procedimientos" para revisar cada uno o agregarle destinatarios.`;
+    notaEl.innerHTML = html || 'No se publicó ningún archivo.';
+    e.target.value = '';
+    if (creados.length) renderMain();
+  }
+
+  files.forEach(file => {
+    if (file.size > 2*1024*1024){
+      rechazados.push(file.name);
+      pendientes--;
+      if (pendientes === 0) finalizarMasiva();
+      return;
+    }
+    const esTexto = /\.(txt|md)$/i.test(file.name);
+    const readerData = new FileReader();
+    readerData.onload = () => {
+      const info = guessMetaFromFilename(file.name);
+      const crearProc = (contenidoTexto, infoExtra) => {
+        const meta = Object.assign({}, info, infoExtra || {});
+        const procs = loadProcs();
+        procs.unshift({
+          id: uid(),
+          titulo: meta.titulo || file.name.replace(/\.[^/.]+$/, ''),
+          categoria,
+          version: meta.version || '1.0',
+          fechaDocumento: meta.fecha || '',
+          fechaPublicacion: new Date().toISOString(),
+          vigenciaHasta: '',
+          contenido: contenidoTexto || '',
+          archivoDataURL: readerData.result,
+          archivoNombre: file.name,
+          urlExterno: '',
+          destinatarios: [],
+          publicadoPor: state.user.nombre + " (Inventarios)"
+        });
+        saveProcs(procs);
+        creados.push(file.name);
+        pendientes--;
+        if (pendientes === 0) finalizarMasiva();
+      };
+
+      if (esTexto){
+        const readerTxt = new FileReader();
+        readerTxt.onload = () => crearProc(readerTxt.result, scanTextoParaMeta(readerTxt.result));
+        readerTxt.readAsText(file);
+      } else {
+        crearProc('');
+      }
+    };
+    readerData.readAsDataURL(file);
+  });
+}
+
+/* Intenta adivinar título/versión/fecha a partir del nombre del archivo */
+function guessMetaFromFilename(filename){
+  let base = filename.replace(/\.[^/.]+$/, '');
+
+  let version = null;
+  const vMatch = base.match(/v(?:ersi[oó]n)?[\s._-]*?(\d+(?:[.,]\d+)?)/i);
+  if (vMatch) version = vMatch[1].replace(',', '.');
+
+  let fecha = null;
+  let m = base.match(/(20\d{2})[-_.](\d{1,2})[-_.](\d{1,2})/);
+  if (m) {
+    fecha = `${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
+  } else if (m = base.match(/(\d{1,2})[-_.](\d{1,2})[-_.](20\d{2})/)) {
+    fecha = `${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
+  }
+
+  let titulo = base;
+  if (vMatch) titulo = titulo.replace(vMatch[0], '');
+  titulo = titulo
+    .replace(/(20\d{2})[-_.](\d{1,2})[-_.](\d{1,2})/, '')
+    .replace(/(\d{1,2})[-_.](\d{1,2})[-_.](20\d{2})/, '')
+    .replace(/[_\-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  titulo = titulo.replace(/\b\w/g, c => c.toUpperCase());
+
+  return { titulo, version, fecha };
+}
+
+/* Para archivos de texto (.txt/.md) busca pistas de versión/fecha/título dentro del contenido */
+function scanTextoParaMeta(texto){
+  const out = {};
+  let m;
+  if (m = texto.match(/versi[oó]n[:\s]+([\d.,]+)/i)) out.version = m[1].replace(',', '.');
+  if (m = texto.match(/fecha[:\s]+(\d{4}-\d{1,2}-\d{1,2})/i)) {
+    out.fecha = m[1];
+  } else if (m = texto.match(/fecha[:\s]+(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/i)) {
+    out.fecha = `${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
+  }
+  const primeraLinea = texto.split('\n').map(l => l.trim()).find(l => l.length > 3 && l.length < 120);
+  if (primeraLinea) out.titulo = primeraLinea.replace(/^#+\s*/, '');
+  return out;
+}
+
+function aplicarMetaDetectada(info, file, extra){
+  const campoTitulo = document.getElementById('nTitulo');
+  const campoVersion = document.getElementById('nVersion');
+  const campoFechaDoc = document.getElementById('nFechaDoc');
+  const detectados = [];
+  if (info.titulo && campoTitulo && !campoTitulo.value.trim()) { campoTitulo.value = info.titulo; detectados.push('título'); }
+  if (info.version && campoVersion) { campoVersion.value = info.version; detectados.push('versión'); }
+  if (info.fecha && campoFechaDoc) { campoFechaDoc.value = info.fecha; detectados.push('fecha'); }
+  const nota = document.getElementById('archivoNota');
+  nota.innerHTML = `Archivo cargado: ${escapeHtml(file.name)}` +
+    (detectados.length ? `<br><span style="color:var(--azul-osc); font-weight:600;">Se detectó automáticamente: ${detectados.join(', ')}. Revísalo antes de publicar.</span>` : '') +
+    (extra || '');
+}
+
+function handleArchivo(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 2*1024*1024){
+    document.getElementById('archivoNota').innerHTML = `<span style="color:var(--rojo)">Archivo muy grande para este prototipo (límite ~2MB). Usa el enlace externo en su lugar.</span>`;
+    e.target.value = '';
+    return;
+  }
+
+  const esTexto = /\.(txt|md)$/i.test(file.name);
+  const readerData = new FileReader();
+  readerData.onload = () => {
+    tempArchivo = { nombre: file.name, dataURL: readerData.result };
+    const info = guessMetaFromFilename(file.name);
+
+    if (esTexto){
+      const readerTxt = new FileReader();
+      readerTxt.onload = () => {
+        const texto = readerTxt.result;
+        const infoTexto = scanTextoParaMeta(texto);
+        aplicarMetaDetectada(Object.assign({}, info, infoTexto), file);
+        const campoContenido = document.getElementById('nContenido');
+        if (campoContenido && !campoContenido.value.trim()) campoContenido.value = texto;
+      };
+      readerTxt.readAsText(file);
+    } else {
+      aplicarMetaDetectada(info, file,
+        `<div class="note">Para PDF/Word este prototipo no puede leer el texto interno, así que el título/versión/fecha se detectan solo del nombre del archivo. Puedes pegar el contenido en el cuadro de texto o ajustar los campos manualmente.</div>`);
+    }
+  };
+  readerData.readAsDataURL(file);
+}
+
+function addDest(){
+  const input = document.getElementById('nDestInput');
+  const v = input.value.trim();
+  if (!v) return;
+  tempDestinatarios.push(v);
+  input.value = '';
+  renderDestTags();
+}
+function removeDest(i){ tempDestinatarios.splice(i,1); renderDestTags(); }
+function renderDestTags(){
+  document.getElementById('destTags').innerHTML = tempDestinatarios.map((d,i) =>
+    `<span class="tag">${escapeHtml(d)} <button onclick="removeDest(${i})">✕</button></span>`
+  ).join('');
+}
+
+function publicarProc(){
+  const titulo = document.getElementById('nTitulo').value.trim();
+  const categoria = document.getElementById('nCategoria').value.trim() || "General";
+  const version = document.getElementById('nVersion').value.trim() || "1.0";
+  const fechaDocumento = document.getElementById('nFechaDoc').value;
+  const vigencia = document.getElementById('nVigencia').value;
+  const contenido = document.getElementById('nContenido').value.trim();
+  const url = document.getElementById('nUrl').value.trim();
+  if (!titulo){ alert("El título es obligatorio."); return; }
+  if (!contenido && !tempArchivo && !url){ alert("Agrega contenido, un archivo o un enlace."); return; }
+
+  const procs = loadProcs();
+  procs.unshift({
+    id: uid(),
+    titulo, categoria, version,
+    fechaDocumento,
+    fechaPublicacion: new Date().toISOString(),
+    vigenciaHasta: vigencia,
+    contenido,
+    archivoDataURL: tempArchivo ? tempArchivo.dataURL : "",
+    archivoNombre: tempArchivo ? tempArchivo.nombre : "",
+    urlExterno: url,
+    destinatarios: [...tempDestinatarios],
+    publicadoPor: state.user.nombre + " (Inventarios)"
+  });
+  saveProcs(procs);
+  alert("Procedimiento publicado.");
+  state.tab = "procedimientos";
+  render();
+}
+
+/* ---------- Vista: Cumplimiento (admin) ---------- */
+function viewCumplimiento(){
+  if (!isAdmin()) return `<div class="card"><div class="empty">Vista solo para Administrador (Inventarios).</div></div>`;
+  const procs = loadProcs();
+  const sigs = loadSigs();
+  if (procs.length === 0) return `<div class="card"><div class="empty">No hay procedimientos.</div></div>`;
+
+  const rows = procs.map(p => {
+    const firmasProc = sigs.filter(s => s.procedureId === p.id);
+    const firmantes = new Set(firmasProc.map(s => s.nombre.toLowerCase()));
+    const esperados = p.destinatarios || [];
+    const pendientes = esperados.filter(d => !firmantes.has(d.toLowerCase()));
+    const cumplimiento = esperados.length ? Math.round(((esperados.length - pendientes.length) / esperados.length) * 100) : null;
+
+    return `
+      <div class="card">
+        <h3>${escapeHtml(p.titulo)} <span class="meta">(v${escapeHtml(p.version)})</span></h3>
+        <div class="stat">
+          <div class="box"><b>${firmasProc.length}</b><span>Firmas recibidas</span></div>
+          <div class="box"><b>${esperados.length}</b><span>Destinatarios esperados</span></div>
+          <div class="box"><b>${cumplimiento === null ? '—' : cumplimiento+'%'}</b><span>% cumplimiento</span></div>
+        </div>
+        ${esperados.length ? `
+          <table>
+            <thead><tr><th>Destinatario</th><th>Estado</th><th>Fecha de firma</th></tr></thead>
+            <tbody>
+              ${esperados.map(d => {
+                const s = firmasProc.find(x => x.nombre.toLowerCase() === d.toLowerCase());
+                return `<tr>
+                  <td>${escapeHtml(d)}</td>
+                  <td>${s ? '<span class="badge ok">Firmado</span>' : '<span class="badge pend">Pendiente</span>'}</td>
+                  <td>${s ? fmtDate(s.fecha) : '—'}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>` : `<p class="note">No se definieron destinatarios esperados para este procedimiento.</p>`}
+
+        ${renderResumenPorCampo(firmasProc, 'puntoVenta', 'Punto de venta')}
+        ${renderResumenPorCampo(firmasProc, 'cargo', 'Cargo')}
+
+        <div class="row-end">
+          <button class="btn-secondary" onclick="descargarActaPDF('${p.id}')">Descargar acta de asistencia (PDF)</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  return rows;
+}
+
+/* Agrupa las firmas de un procedimiento por un campo (puntoVenta o cargo) y arma una tabla resumen */
+function renderResumenPorCampo(firmasProc, campo, etiqueta){
+  if (firmasProc.length === 0){
+    return `<h3 style="margin-top:16px;">Firmas por ${etiqueta.toLowerCase()}</h3><p class="note">Aún no hay firmas registradas.</p>`;
+  }
+  const grupos = {};
+  firmasProc.forEach(s => {
+    const key = s[campo] || '—';
+    if (!grupos[key]) grupos[key] = [];
+    grupos[key].push(s.nombre);
+  });
+  const filas = Object.keys(grupos).sort().map(key => `
+    <tr>
+      <td>${escapeHtml(key)}</td>
+      <td>${grupos[key].length}</td>
+      <td class="meta">${grupos[key].map(escapeHtml).join(', ')}</td>
+    </tr>
+  `).join('');
+  return `
+    <h3 style="margin-top:16px;">Firmas por ${etiqueta.toLowerCase()}</h3>
+    <table>
+      <thead><tr><th>${etiqueta}</th><th>Firmantes</th><th>Personas</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+  `;
+}
+
+/* ---------- Acta de asistencia (PDF vía impresión del navegador) ---------- */
+function descargarActaPDF(procId){
+  const p = loadProcs().find(x => x.id === procId);
+  const sigs = loadSigs().filter(s => s.procedureId === procId).sort((a,b) => new Date(a.fecha) - new Date(b.fecha));
+  if (sigs.length === 0){ alert("Todavía no hay firmas registradas para este procedimiento."); return; }
+
+  const filas = sigs.map((s,i) => `
+    <tr>
+      <td style="text-align:center;">${i+1}</td>
+      <td>${escapeHtml(s.numDoc || '—')}</td>
+      <td>${escapeHtml(s.nombre)}</td>
+      <td>${escapeHtml(s.cargo || '—')}</td>
+      <td>${escapeHtml(s.puntoVenta || '—')}</td>
+      <td style="text-align:center;"><img src="${s.firmaDataURL}" style="height:32px; max-width:110px;"></td>
+    </tr>
+  `).join('');
+
+  document.getElementById('areaImprimir').innerHTML = `
+    <div style="font-family: Arial, Helvetica, sans-serif; color:#111; padding:10px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #1C8E85; padding-bottom:10px; margin-bottom:14px;">
+        <img src="${BBC_LOGO_B64}" style="height:42px;">
+        <div style="text-align:right; font-size:11px; color:#444;">
+          <div><b>FGCCP002</b> · LISTADO DE ASISTENCIA</div>
+          <div>Versión 1</div>
+        </div>
+      </div>
+      <table style="width:100%; font-size:12px; margin-bottom:12px;">
+        <tr>
+          <td><b>FECHA:</b> ${fmtDate(new Date().toISOString())}</td>
+          <td style="text-align:right;"><b>TOTAL PARTICIPANTES:</b> ${sigs.length}</td>
+        </tr>
+        <tr><td colspan="2"><b>TEMA:</b> ${escapeHtml(p.titulo)} (v${escapeHtml(p.version)})</td></tr>
+      </table>
+      <table style="width:100%; border-collapse:collapse; font-size:11px;" border="1" cellpadding="5">
+        <thead>
+          <tr style="background:#1C8E85; color:#fff;">
+            <th>N°</th><th>CÉDULA</th><th>NOMBRES Y APELLIDOS</th><th>CARGO</th><th>ÁREA / PUNTO</th><th>FIRMA</th>
+          </tr>
+        </thead>
+        <tbody>${filas}</tbody>
+      </table>
+      <p style="font-size:11px; margin-top:16px;"><b>OBSERVACIONES:</b> Documento generado automáticamente por la Plataforma de Procedimientos — Temple Colombia. La firma es la captura digital registrada por cada persona al confirmar la lectura del procedimiento.</p>
+    </div>
+  `;
+  window.print();
+}
+
+/* ---------- Vista: Historial de firmas (admin) — evidencia para casos de incumplimiento ---------- */
+function viewHistorial(){
+  if (!isAdmin()) return `<div class="card"><div class="empty">Vista solo para Administrador (Inventarios).</div></div>`;
+  const sigs = loadSigs().slice().sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+
+  return `
+    <div class="card">
+      <h2>Historial de firmas (soporte / evidencia)</h2>
+      <p class="note">Busca por nombre de la persona para verificar si firmó el recibido de un procedimiento específico, con fecha, hora y firma manuscrita como soporte.</p>
+      <div class="toolbar">
+        <input type="text" id="buscarFirma" placeholder="Buscar por nombre..." oninput="renderTablaFirmas()">
+        <button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button>
+      </div>
+      <div id="tablaFirmas"></div>
+    </div>
+  `;
+}
+
+function renderTablaFirmas(){
+  const cont = document.getElementById('tablaFirmas');
+  if (!cont) return;
+  const q = (document.getElementById('buscarFirma').value || '').toLowerCase();
+  let sigs = loadSigs().slice().sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+  if (q) sigs = sigs.filter(s => s.nombre.toLowerCase().includes(q) || s.procedureTitulo.toLowerCase().includes(q));
+
+  if (sigs.length === 0){ cont.innerHTML = `<div class="empty">Sin resultados.</div>`; return; }
+
+  cont.innerHTML = `
+    <table>
+      <thead><tr><th>Persona</th><th>Tipo doc.</th><th>N° documento</th><th>Cargo</th><th>Punto de venta</th><th>Procedimiento</th><th>Fecha y hora</th><th>Firma</th></tr></thead>
+      <tbody>
+        ${sigs.map(s => `
+          <tr>
+            <td>${escapeHtml(s.nombre)}</td>
+            <td>${escapeHtml(s.tipoDoc||'—')}</td>
+            <td>${escapeHtml(s.numDoc||'—')}</td>
+            <td>${escapeHtml(s.cargo)}</td>
+            <td>${escapeHtml(s.puntoVenta||'—')}</td>
+            <td>${escapeHtml(s.procedureTitulo)}</td>
+            <td>${fmtDate(s.fecha)}</td>
+            <td><img class="sig-thumb" src="${s.firmaDataURL}" onclick="verFirmaGrande('${s.id}')"></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function verFirmaGrande(id){
+  const s = loadSigs().find(x => x.id === id);
+  showModal(`
+    <h2>Soporte de firma</h2>
+    <p><b>${escapeHtml(s.nombre)}</b> — ${escapeHtml(s.cargo)} ${s.puntoVenta ? '· '+escapeHtml(s.puntoVenta) : ''}</p>
+    <p class="meta">${escapeHtml(s.tipoDoc||'')} N° ${escapeHtml(s.numDoc||'—')}<br>Procedimiento: ${escapeHtml(s.procedureTitulo)}<br>Fecha y hora: ${fmtDate(s.fecha)}<br>Declaración: confirmó haber leído y entendido el procedimiento.</p>
+    <div style="border:1px solid var(--borde); border-radius:8px; padding:10px; background:#fff;">
+      <img src="${s.firmaDataURL}" style="width:100%;">
+    </div>
+    <div class="row-end"><button class="btn-primary" onclick="closeModal()">Cerrar</button></div>
+  `);
+}
+
+function exportarCSV(){
+  const sigs = loadSigs();
+  const header = ['Nombre','Tipo_documento','Numero_documento','Cargo','Punto_de_venta','Procedimiento','Fecha_ISO'];
+  const rows = sigs.map(s => [s.nombre, s.tipoDoc, s.numDoc, s.cargo, s.puntoVenta, s.procedureTitulo, s.fecha]);
+  const csv = [header, ...rows].map(r => r.map(v => `"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'historial_firmas.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- Vista: Comentarios (admin) ---------- */
+function viewComentarios(){
+  if (!isAdmin()) return `<div class="card"><div class="empty">Vista solo para Administrador (Inventarios).</div></div>`;
+  const coments = loadComentarios();
+  const pendientes = coments.filter(c => !c.resuelto).length;
+  return `
+    <div class="card">
+      <h2>Dudas de los procedimientos</h2>
+      <div class="stat">
+        <div class="box"><b>${coments.length}</b><span>Total</span></div>
+        <div class="box"><b>${pendientes}</b><span>Pendientes</span></div>
+      </div>
+      <div class="toolbar">
+        <select id="filtroComentarios" onchange="renderTablaComentarios()">
+          <option value="todos">Todos</option>
+          <option value="pendientes">Solo pendientes</option>
+          <option value="resueltos">Solo resueltos</option>
+        </select>
+        <input type="text" id="buscarComentario" placeholder="Buscar por persona o procedimiento..." oninput="renderTablaComentarios()">
+      </div>
+      <div id="listaComentariosAdmin"></div>
+    </div>
+  `;
+}
+
+function renderTablaComentarios(){
+  const cont = document.getElementById('listaComentariosAdmin');
+  if (!cont) return;
+  const filtro = document.getElementById('filtroComentarios').value;
+  const q = (document.getElementById('buscarComentario').value || '').toLowerCase();
+  let coments = loadComentarios().slice().sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+  if (filtro === 'pendientes') coments = coments.filter(c => !c.resuelto);
+  if (filtro === 'resueltos') coments = coments.filter(c => c.resuelto);
+  if (q) coments = coments.filter(c => c.nombre.toLowerCase().includes(q) || c.procedureTitulo.toLowerCase().includes(q));
+
+  if (coments.length === 0){ cont.innerHTML = `<div class="empty">Sin dudas que coincidan.</div>`; return; }
+
+  cont.innerHTML = coments.map(c => `
+    <div class="card" style="margin-bottom:10px;">
+      <div class="meta"><b style="color:#1c2530;">${escapeHtml(c.nombre)}</b>${c.cargo ? ' · '+escapeHtml(c.cargo) : ''}${c.puntoVenta ? ' · '+escapeHtml(c.puntoVenta) : ''} · ${fmtDate(c.fecha)}
+        <span class="badge ${c.resuelto ? 'ok':'pend'}">${c.resuelto ? 'Resuelto' : 'Pendiente'}</span>
+      </div>
+      <div class="meta">Procedimiento: ${escapeHtml(c.procedureTitulo)} ${c.correo ? '· ✉️ '+escapeHtml(c.correo) : '· <span style="color:var(--rojo)">sin correo registrado</span>'}</div>
+      <div style="margin:8px 0;">${escapeHtml(c.texto)}</div>
+      ${c.respuesta ? `<div style="padding:8px 10px; background:var(--gris-cl); border-radius:6px; margin-bottom:8px;"><span class="meta"><b>Tu respuesta</b> · ${fmtDate(c.respuestaFecha)}</span><div>${escapeHtml(c.respuesta)}</div></div>` : ''}
+      <textarea id="resp_${c.id}" placeholder="Escribe una respuesta...">${escapeHtml(c.respuesta)}</textarea>
+      <div class="actions" style="margin-top:8px;">
+        <button class="btn-secondary" onclick="guardarRespuesta('${c.id}')">Guardar respuesta</button>
+        <button class="btn-primary" onclick="enviarPorCorreo('${c.id}')">Enviar por correo</button>
+        <button class="btn-ghost" onclick="toggleResuelto('${c.id}')">${c.resuelto ? 'Marcar pendiente' : 'Marcar resuelto'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function guardarRespuesta(id){
+  const coments = loadComentarios();
+  const c = coments.find(x => x.id === id);
+  c.respuesta = document.getElementById('resp_'+id).value.trim();
+  c.respuestaFecha = new Date().toISOString();
+  saveComentarios(coments);
+  renderTablaComentarios();
+}
+
+/* Abre el cliente de correo del administrador (Outlook/Gmail, el que tenga configurado)
+   con el mensaje ya redactado. Este prototipo no tiene un backend de correo propio,
+   así que el envío real lo hace el administrador desde su propio correo. */
+function enviarPorCorreo(id){
+  const coments = loadComentarios();
+  const c = coments.find(x => x.id === id);
+  const respuesta = document.getElementById('resp_'+id).value.trim();
+  if (!respuesta){ alert("Escribe la respuesta antes de enviarla por correo."); return; }
+  if (!c.correo){ alert("Esta persona no dejó un correo corporativo registrado."); return; }
+
+  c.respuesta = respuesta;
+  c.respuestaFecha = new Date().toISOString();
+  saveComentarios(coments);
+  renderTablaComentarios();
+
+  const asunto = encodeURIComponent('Respuesta a tu duda: ' + c.procedureTitulo);
+  const cuerpo = encodeURIComponent(
+    `Hola ${c.nombre},\n\nEsta es la respuesta a tu duda sobre el procedimiento "${c.procedureTitulo}":\n\n${respuesta}\n\n— Administrador (Inventarios)`
+  );
+  window.location.href = `mailto:${c.correo}?subject=${asunto}&body=${cuerpo}`;
+}
+
+function toggleResuelto(id){
+  const coments = loadComentarios();
+  const c = coments.find(x => x.id === id);
+  c.resuelto = !c.resuelto;
+  saveComentarios(coments);
+  renderTablaComentarios();
+}
+
+/* ---------- Vista: Mis firmas (usuario) ---------- */
+function viewMisFirmas(){
+  if (!state.user) return `<div class="card"><div class="empty">Identifícate primero.</div></div>`;
+  const sigs = loadSigs().filter(s => s.nombre.toLowerCase() === state.user.nombre.toLowerCase())
+    .sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+  if (sigs.length === 0) return `<div class="card"><div class="empty">Aún no has firmado ningún procedimiento.</div></div>`;
+  return `
+    <div class="card">
+      <h2>Procedimientos que he firmado</h2>
+      <table>
+        <thead><tr><th>Procedimiento</th><th>Fecha y hora</th><th>Firma</th></tr></thead>
+        <tbody>
+          ${sigs.map(s => `
+            <tr>
+              <td>${escapeHtml(s.procedureTitulo)}</td>
+              <td>${fmtDate(s.fecha)}</td>
+              <td><img class="sig-thumb" src="${s.firmaDataURL}" onclick="verFirmaGrande('${s.id}')"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+/* ---------- Utilidades UI ---------- */
+function showModal(html, wide){
+  document.getElementById('modalRoot').innerHTML = `<div class="modal-bg" onclick="if(event.target===this) closeModal()"><div class="modal"${wide ? ' style="max-width:820px;"' : ''}>${html}</div></div>`;
+}
+function closeModal(){ document.getElementById('modalRoot').innerHTML = ''; }
+function escapeHtml(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return escapeHtml(s); }
+
+/* Hook: cuando se abre historial, pintar tabla */
+const origRenderMain = renderMain;
+renderMain = function(){
+  origRenderMain();
+  if (state.tab === "historial") renderTablaFirmas();
+  if (state.tab === "comentarios") renderTablaComentarios();
+};
+
+render();
+if (!state.user) openLogin();
+</script>
+</body>
+</html>
